@@ -7,6 +7,10 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
+  void aFunction() {
+    print("Button clicked.");
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -18,7 +22,22 @@ class MyApp extends StatelessWidget {
           centerTitle: true,
           title: Text('RB Bank App'),
         ),
-        body: Text('Body'),
+        body: Container(
+          padding: EdgeInsets.all(20),
+          color: Colors.blueGrey[700],
+          width: double.infinity,
+          height: double.infinity,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text("Balance"),
+              ElevatedButton(
+                onPressed: aFunction,
+                child: Text("Click"),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
