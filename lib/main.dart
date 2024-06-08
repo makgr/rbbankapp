@@ -6,11 +6,20 @@ void main() {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
-  void aFunction() {
-    print("Button clicked.");
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  double balance = 0;
+
+  void addbalance() {
+    setState(() {
+      balance += 500;
+    });
   }
 
   @override
@@ -43,18 +52,21 @@ class MyApp extends StatelessWidget {
                     SizedBox(
                       height: 20,
                     ),
-                    Text("1"),
+                    Text("$balance"),
                   ],
                 ),
               ),
               Expanded(
                 flex: 1,
                 child: ElevatedButton(
-                  onPressed: aFunction,
+                  onPressed: addbalance,
                   style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.amber[700],
                       minimumSize: Size(double.infinity, 0)),
-                  child: Text("Add Balance"),
+                  child: Text(
+                    "Add Balance",
+                    style: TextStyle(color: Colors.black),
+                  ),
                 ),
               ),
             ],
