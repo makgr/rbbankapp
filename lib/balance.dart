@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class Balance extends StatelessWidget {
   double balance;
@@ -15,7 +16,10 @@ class Balance extends StatelessWidget {
           SizedBox(
             height: 20,
           ),
-          Text("$balance"),
+          Text(
+            "\$ ${NumberFormat.simpleCurrency(name: '', locale: 'en_US').format(balance)}",
+            style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
+          ),
         ],
       ),
     );
