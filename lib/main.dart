@@ -1,6 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:rbbankapp/add_money_button.dart';
+import 'package:rbbankapp/balance.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
   runApp(const MyApp());
@@ -16,16 +17,34 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   double balance = 0;
 
-  void addbalance() {
+  void addbalance() async {
     setState(() {
       balance += 500;
+    });
+
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setDouble('decimal', balance);
+  }
+
+  @override
+  void initState() {
+    loadbalance();
+    // TODO: implement initState
+    super.initState();
+  }
+
+  void loadbalance() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    setState(() {
+      balance = prefs.getDouble('decimal') ?? 0;
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'RB Bank App',
       theme: ThemeData.dark(
         useMaterial3: true,
       ),
@@ -43,31 +62,11 @@ class _MyAppState extends State<MyApp> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Expanded(
-                flex: 9,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text("Balance"),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Text("$balance"),
-                  ],
-                ),
+              Balance(
+                balance: balance,
               ),
-              Expanded(
-                flex: 1,
-                child: ElevatedButton(
-                  onPressed: addbalance,
-                  style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.amber[700],
-                      minimumSize: Size(double.infinity, 0)),
-                  child: Text(
-                    "Add Balance",
-                    style: TextStyle(color: Colors.black),
-                  ),
-                ),
+              AddMoneyButton(
+                addMoneyFunction: addbalance,
               ),
             ],
           ),
